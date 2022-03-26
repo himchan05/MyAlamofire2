@@ -8,9 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var randomjokes = ViewModel()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        
+        NavigationView {
+            List(randomjokes.viewmodel, id: \.self) { data in
+                Text(data.joke)
+            }
+            .navigationTitle("\(randomjokes.viewmodel.count)개 입니다.")
+            .navigationBarItems(trailing: Button(action: {
+                randomjokes.fetchData(count: 45)
+            }, label: {
+                Image(systemName: "arrow.clockwise.circle")
+            }))
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        
     }
 }
 
